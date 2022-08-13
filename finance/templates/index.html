@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Price</th>
+                <th>TOTAL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set count = namespace(value=0) %}
+            {%for item in inventory%}
+                    <tr>
+                        <td>{{item["symbol"]}}</td>
+                        <td>{{item["name"]}}</td>
+                        <td>{{item["share"]}}</td>
+                        <td>{{prices[count.value] | usd}}</td>
+                        <td>{{(prices[count.value]*item["share"]) | usd}}</td>
+                    </tr>
+                    {% set count.value = count.value + 1 %}
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+
+                <td class="fw-bold text-end" colspan="4">Cash</td>
+                <td>{{user_money | usd}}</td>
+            </tr>
+            <tr>
+                <td class="fw-bold text-end" colspan="4">TOTAL</td>
+                <td>{{total_money | usd}}</td>
+            </tr>
+        </tfoot>
+    </table>
+{% endblock %}
